@@ -1,0 +1,88 @@
+# version: '3.8'
+# services:
+#   frontend:
+#     build:
+#       context: ./frontend
+#       dockerfile: Dockerfile
+#     ports:
+#       - "3000:3000"
+#   backend:
+#     build:
+#       context: ./backend
+#       dockerfile: Dockerfile
+#     ports:
+#       - "5500:5500"
+#     depends_on:
+#       - postgres
+#     environment:
+#       DATABASE_URL: postgres://postgres:password@localhost:5432/munchease
+#     command: npm start
+
+#   postgres:
+#     image: postgres:latest
+#     environment:
+#       POSTGRES_DB: munchease
+#       POSTGRES_USER: postgres
+#       POSTGRES_PASSWORD: password
+#     ports:
+#       - "5432:5432"
+
+# volumes:
+#   postgres_data:
+
+# networks:
+#   default:
+#     driver: bridge
+
+
+
+
+
+
+
+version: '3.8'
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    image: codespeed45/docker-compose-munchease-frontend:0.0.1.RELEASE  # Add this line
+    ports:
+      - "3000:3000"
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    image: codespeed45/docker-compose-munchease-backend:0.0.1.RELEASE  # Add this line
+    ports:
+      - "5500:5500"
+    depends_on:
+      - postgres
+    environment:
+      DATABASE_URL: postgres://postgres:password@postgres:5432/munchease
+    command: npm start
+
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: munchease
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data  # You missed this line in your original file
+
+volumes:
+  postgres_data:
+
+networks:
+  default:
+    driver: bridge
+
+
+
+
+
+
